@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Timetable Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            padding: 2rem;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .table td, .table th {
+            vertical-align: middle;
+        }
+        .mode-header {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .editable {
+            cursor: pointer;
+        }
+        .form-inline {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="mb-4">Timetable Management Interface</h2>
+        <form method="GET" class="mb-4">
+            <div class="form-inline">
+                <label class="me-2">Select Mode of Study:</label>
+                <select name="mode" class="form-select me-3" style="width: auto;">
+                    <option value="normal">Normal</option>
+                    <option value="evening">Evening</option>
+                    <option value="weekend">Weekend</option>
+                    <option value="blended">Blended</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Load Timetable</button>
+            </div>
+        </form>
+
+        <!-- Timetable View -->
+        <div class="card mb-4">
+            <div class="card-header mode-header">Timetable Editor</div>
+            <div class="card-body">
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Time Slot</th>
+                            <th>Course</th>
+                            <th>Classroom</th>
+                            <th>Lecturer Initials</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="timetable-body">
+                        <!-- Dynamic Rows -->
+                        <tr>
+                            <td>Monday</td>
+                            <td contenteditable="true" class="editable">8am - 10am</td>
+                            <td>
+                                <select class="form-select">
+                                    <option>CS101</option>
+                                    <option>MATH201</option>
+                                    <option>PHY301</option>
+                                </select>
+                            </td>
+                            <td contenteditable="true" class="editable">Room 101</td>
+                            <td contenteditable="true" class="editable">JD</td>
+                            <td><button class="btn btn-danger btn-sm">Delete</button></td>
+                        </tr>
+                        <!-- Add more rows dynamically -->
+                    </tbody>
+                </table>
+                <button class="btn btn-success" id="add-row">Add Row</button>
+            </div>
+        </div>
+
+        <button class="btn btn-primary">Save Timetable</button>
+        <a href="dashboard.php" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    <script>
+        document.getElementById('add-row').addEventListener('click', function() {
+            const tbody = document.getElementById('timetable-body');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td contenteditable="true" class="editable">Day</td>
+                <td contenteditable="true" class="editable">Time</td>
+                <td>
+                    <select class="form-select">
+                        <option>CS101</option>
+                        <option>MATH201</option>
+                        <option>PHY301</option>
+                    </select>
+                </td>
+                <td contenteditable="true" class="editable">Classroom</td>
+                <td contenteditable="true" class="editable">Initials</td>
+                <td><button class="btn btn-danger btn-sm">Delete</button></td>
+            `;
+            tbody.appendChild(newRow);
+        });
+
+        document.getElementById('timetable-body').addEventListener('click', function(e) {
+            if (e.target.classList.contains('btn-danger')) {
+                e.target.closest('tr').remove();
+            }
+        });
+    </script>
+</body>
+</html>
